@@ -4,7 +4,3 @@
 
 
 ## pip freeze > requirement.txt
-
-
-adarsh
-adarsh
