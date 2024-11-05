@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import shortuuid
 from shortuuid.django_fields import ShortUUIDField
+from django.db.models.signals import post_save
 # Create your models here.
 shortuuid.set_alphabet("abcdefghijk")
 
@@ -15,32 +16,18 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
-    # groups = models.ManyToManyField(
-    #     Group,
-    #     related_name='userauths_user_set',  # Custom related_name
-    #     blank=True
-    # )
-
-    # user_permissions = models.ManyToManyField(
-    #     Permission,
-    #     related_name='userauths_user_permissions',  # Custom related_name
-    #     blank=True
-    # )
 
     def __str__(self):
         return self.email
     
     def save(self,*args,**kwargs):
-        email_username, mobile = self.email.split("@")
-
+        email_username, rest = self.email.split("@")
         if self.full_name == "" or self.full_name == None:
-            self.first_name == email_username
-
+            self.full_name = email_username
         if self.username == "" or self.username == None:
-            self.username == email_username
+            self.username = email_username
 
         super(User, self).save(*args, **kwargs)
-
 
 class Profile(models.Model):
 
@@ -63,13 +50,19 @@ class Profile(models.Model):
             return str(self.user.full_name)
         
     def save(self,*args,**kwargs):
-       
-
         if self.full_name == "" or self.full_name == None:
             self.full_name == self.user.full_name
-
-
         super(Profile, self).save(*args, **kwargs)
+
+def create_user_profile(sender, instance, created, **kwargs):
+	if created:
+		Profile.objects.create(user=instance)
+
+def save_user_profile(sender, instance, **kwargs):
+	instance.profile.save()
+
+post_save.connect(create_user_profile, sender=User)
+post_save.connect(save_user_profile, sender=User)
 
     
 
