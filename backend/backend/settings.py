@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #Override packages
+    "jazzmin",
+    #Override packages
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +46,7 @@ INSTALLED_APPS = [
     "vendor",
     "customer",
     "api",
+       #Custom apps
 ]
 
 MIDDLEWARE = [
@@ -122,8 +126,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR, "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+MEDIA_URL = "media/"
+MEDIA_ROOT =  BASE_DIR / "media"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+JAZZMIN_SETTINGS={    "site_title": "Desphixs",
+    "site_header": "Strategic Sourcing",
+    "site_brand": "Modern Marketplace ",
+    "welcome_sign": "Welcome To Desphixs",
+    "copyright": "Desphixs",
+    "show_sidebar": True,
+    "show_ui_builder":True,
+    }
