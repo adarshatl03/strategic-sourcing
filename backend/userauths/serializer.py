@@ -36,6 +36,7 @@ class RegisterSerilizer(serializers.ModelSerializer):
             full_name=validate_data["full_name"],
             email=validate_data["email"],
             phone=validate_data["phone"],
+            is_active=False 
         )
         email_user,mobile=user.email.split("@")
         user.username=email_user

@@ -51,10 +51,12 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
     'drf_yasg',
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -137,6 +139,17 @@ MEDIA_URL = "media/"
 MEDIA_ROOT =  BASE_DIR / "media"
 
 AUTH_USER_MODEL="userauths.User"
+
+CORS_ALLOW_ALL_ORIGINS=True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'adarshatl03@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'pdblthftemgnwuqz'  # Your email password
+DEFAULT_FROM_EMAIL = 'adarshatl03@gmail.com'  
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
