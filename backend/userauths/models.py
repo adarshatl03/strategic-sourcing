@@ -31,7 +31,7 @@ class User(AbstractUser):
 
 class Profile(models.Model):
 
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
     image = models.FileField(upload_to="image",default="default/default-user.jpg",null=True,blank=True)
     full_name = models.CharField(max_length=100,null=True,blank=True)
     about = models.TextField(null=True, blank=True)
@@ -51,7 +51,7 @@ class Profile(models.Model):
         
     def save(self,*args,**kwargs):
         if self.full_name == "" or self.full_name == None:
-            self.full_name == self.user.full_name
+            self.full_name = self.user.full_name
         super(Profile, self).save(*args, **kwargs)
 
 def create_user_profile(sender, instance, created, **kwargs):
