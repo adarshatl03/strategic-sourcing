@@ -67,3 +67,25 @@ class PasswordResetEmailVerify(generics.GenericAPIView):
                 {"message": "User with the provided email does not exist."},
                 status=status.HTTP_404_NOT_FOUND
             )
+        
+class PasswordChangeView(generics.CreateAPIView):
+    permission_classes=[permissions.AllowAny]
+    serializer_class=UserSerializer
+
+    def create(self,request,*args,**kwargs):
+        payload = request.data
+
+        otp=payload["otp"]
+        uidb64=payload["uidb64"]
+
+        password=payload["password"]
+
+        user=User.objects.get(id=uidb64,otp=otp)
+
+        if user:
+            user.set_password(password)
+            user.otp=None
+            user.reset_tokken=None
+            user.save()
+
+            return response.Response({"message":"Password Changed Successfully"},status=status.HTTP_201_CREATED)
