@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics,permissions,response,status
+from backend.utils import send_common_email
 from userauths.models import User,Profile
 from django.core.mail import send_mail
 from django.utils import timezone 
@@ -42,46 +43,25 @@ class PasswordResetEmailVerify(generics.GenericAPIView):
             user.otp = generate_otp()
             user.save()
 
-            uidb64 = user.id
+            uidb64 = user.pk
             otp = user.otp
 
             # Construct the reset link
             link = f"http://localhost:5573/create-new-password?otp={otp}&uidb64={uidb64}"
-
+            template_name="password_reset_email.html"
+            context = {
+            'reset_link': link,  # Activation link
+            'current_year': timezone.now().year
+        }
             # Email subject and message
             subject = "Password Reset Request"
-            message = f"Hello, \n\nYou requested to reset your password. Click the link below to reset it:\n\n{link}\n\nIf you did not request this, please ignore this email."
-
-            try:
-                # Send email and capture the result
-                send_mail(
-                    subject,
-                    message,
-                    settings.DEFAULT_FROM_EMAIL,  # The sender's email address
-                    [email],  # List of recipient email addresses
-                    fail_silently=False,
-                )
-
-                # Email sent time and status
-                email_sent_time = timezone.now()
-                status_message = "Password reset email sent successfully."
-                email_status = "success"
-
-            except Exception as e:
-                # Capture any errors in sending the email
-                email_sent_time = timezone.now()
-                status_message = f"Failed to send email: {str(e)}"
-                email_status = "failure"
-
-            # Log the status (you could also save this info in the database if needed)
-            print(f"Email Status: {email_status}")
-            print(f"Email Sent Time: {email_sent_time}")
-            print(f"Status Message: {status_message}")
-
-            return response.Response(
-                {"message": status_message, "email_sent_time": email_sent_time, "status": email_status},
-                status=status.HTTP_200_OK
-            )
+            composer = send_common_email(subject,[user.email],context,template_name)
+            success_message = "User created successfully."
+            return response.Response({
+            "message": success_message if composer["status"] == "success" else composer["message"],
+            "email_sent_time": composer["email_sent_time"],
+            "status": composer["status"]
+        })
         else:
             return response.Response(
                 {"message": "User with the provided email does not exist."},
