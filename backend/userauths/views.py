@@ -26,7 +26,7 @@ def generate_otp():
 
 class PasswordResetEmailVerify(generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
-
+    serializer_class=UserSerializer
     def get(self, request, *args, **kwargs):
      
         email = request.query_params.get("email")  # Extract email from query parameters
