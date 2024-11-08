@@ -30,7 +30,7 @@ class SizeInLine(admin.TabularInline):
 class ProductsAdmin(ImportExportModelAdmin):
     resource_class = ProductResource  # Enable import/export for Product model
     list_display = ["title", "price", "category", "shipping_amount", "stock_qty", "in_stock", "vendor", "featured"]
-    # list_editable = ["featured"]
+    list_editable = ["featured"]
     search_fields = ["title"]
     list_filter = ["date"]
     inlines = [GalleryInLine, SpecificationInLine, ColorInLine, SizeInLine]
