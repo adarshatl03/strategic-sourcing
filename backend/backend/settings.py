@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "api",
        #Custom apps
     "rest_framework",
+    "import_export",
     "rest_framework_simplejwt.token_blacklist",
     'drf_yasg',
     "corsheaders"
