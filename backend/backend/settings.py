@@ -41,13 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #Custom apps
+    #Custom apps start
     "userauths",
     "store",
     "vendor",
     "customer",
     "api",
-       #Custom apps
+    #Custom apps end
     "rest_framework",
     "import_export",
     "rest_framework_simplejwt.token_blacklist",
