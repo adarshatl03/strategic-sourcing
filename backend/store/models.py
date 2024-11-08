@@ -19,7 +19,7 @@ class Category(models.Model):
 class Product(models.Model):
     STATUS=(("draft","Draft"),
     ("disabled","Disabled"),
-    ("in_review","In_Review"),
+    ("in_review","In Review"),
     ("published","Published"),)
     
     title = models.CharField(max_length=100)

@@ -19,10 +19,10 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display_links = ["get_username", "get_user_email"]
 
     # Enable search on relevant fields
-    search_fields = ["user__username", "full_name", "user__email", "user__phone", "country", "state", "city"]
+    search_fields = ["user__username", "full_name", "user__email", "user__phone",  "state", "city"]
 
     # Optionally, add filters to narrow down by fields like gender or country
-    list_filter = ["gender", "country", "state"]
+    list_filter = ["state"]
 
     # You can add a method to display the username or email properly
     def get_username(self, obj):

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "store",
     "vendor",
     "customer",
+    "registers",
     "api",
        #Custom apps
     "rest_framework",
