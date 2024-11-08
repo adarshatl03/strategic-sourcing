@@ -196,4 +196,15 @@ JAZZMIN_SETTINGS={    "site_title": "Desphixs",
     "copyright": "Desphixs",
     "show_sidebar": True,
     "show_ui_builder":True,
+    "icons": {
+        "auth.User": "fas fa-user",           # Custom icon for the User model
+        "auth.Group": "fas fa-users-cog", 
+        "token_blacklist.OutstandingToken": "fas fa-key",     # Icon for OutstandingToken model
+        "token_blacklist.BlacklistedToken": "fas fa-ban",     # Icon for BlacklistedToken model
+        "store.Product": "fas fa-box",            # Icon for Product model
+        "userauths.Profile": "fas fa-user-circle",            # Icon for Product model
+        "userauths.User": "fas fa-user",            # Icon for Product model
+        "vendor.Vendor": "fas fa-shopping-basket",            # Icon for Product model
+                # Icon for Gallery model
+    },
     }
