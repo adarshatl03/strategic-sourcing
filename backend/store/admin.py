@@ -3,7 +3,7 @@
 from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from .models import Product, Color, Size, Specification, Gallery, Cart, CartOrder,CartOrderItems, Category,Review,Coupens,Notification,Wishlist,ProductFaq
+from .models import Product, Color, Size, Specification, Gallery, Cart, CartOrder,CartOrderItems, Category,Review,Coupens,Notification,Wishlist,ProductFaq,Tax
 
 class ProductResource(resources.ModelResource):
     class Meta:
@@ -59,6 +59,7 @@ admin.site.register(Cart)
 admin.site.register(CartOrder)
 admin.site.register(CartOrderItems)
 admin.site.register(Wishlist)
+admin.site.register(Tax)
 
 admin.site.register(Coupens,CoupenAdmin)
 admin.site.register(Notification,NotificationAdmin)

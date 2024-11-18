@@ -313,7 +313,17 @@ class Coupens(models.Model):
        
 
 
+class Tax(models.Model):
+    country=models.CharField(max_length=100)
+    rate=models.IntegerField(default=5,help_text="Numbers in percentage")
+    active=models.BooleanField(default=True)
+    date=models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.country
+    
+    class Meta:
+        verbose_name_plural="Taxes"
       
 
     

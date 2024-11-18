@@ -1,17 +1,42 @@
 import React, { useEffect, useState } from 'react'
 import apiInstance from '../../utils/axios'
 import { useParams } from 'react-router-dom'
-
+import useGetCurrentAddress from '../plugin/useAddress'
 const ProductDetails = () => {
-    const [data, setData] = useState({})
+    const { address, error } = useGetCurrentAddress();
+    console.log(address,error)
+    const [product, setProduct] = useState({})
+    const [specifications, setSpecifications] = useState([])
+    const [gallery, setGallery] = useState([])
+    const [color, setColor] = useState([])
+    const [size, setSize] = useState([])
+    const [colorValue, setColorValue] = useState()
+    const [sizeValue, setSizeValue] = useState()
+    const [qtyValue, setQtyValue] = useState(1)
     const { slug } = useParams()
     useEffect(() => {
         if (slug) {
             apiInstance.get(`products/${slug}`).then((res) => {
-                setData(res.data)
+                setProduct(res.data)
+                setSpecifications(res.data.specification)
+                setGallery(res.data.gallery)
+                setColor(res.data.color)
+                setSize(res.data.size)
             })
         }
     }, [slug])
+    const handleQty = (e) => {
+        setQtyValue(e.target.value)
+    }
+    const handleColor = (e) => {
+        const colorNameInput = e.target.closest(".color_button").parentNode.querySelector(".color_name")
+        setColorValue(colorNameInput.value)
+    }
+    const handleSize = (e) => {
+        const sizeNameInput = e.target.closest(".size_button").parentNode.querySelector(".size_name")
+        setSizeValue(sizeNameInput.value)
+    }
+    const handleAddToCart=()=>{}
     return (
         <div><main className="mb-4 mt-4">
             <div className="container">
@@ -39,84 +64,25 @@ const ProductDetails = () => {
                                     </div>
                                 </div>
                                 <div className="mt-3 d-flex">
-                                    <div className="p-3">
-                                        <img
-                                            src="https://mdbootstrap.com/img/Photos/Slides/1.jpg"
-                                            style={{
-                                                width: 100,
-                                                height: 100,
-                                                objectFit: "cover",
-                                                borderRadius: 10
-                                            }}
-                                            alt="Gallery image 1"
-                                            className="ecommerce-gallery-main-img active w-100 rounded-4"
-                                        />
-                                    </div>
-                                    <div className="p-3">
-                                        <img
-                                            src="https://mdbootstrap.com/img/Photos/Slides/1.jpg"
-                                            style={{
-                                                width: 100,
-                                                height: 100,
-                                                objectFit: "cover",
-                                                borderRadius: 10
-                                            }}
-                                            alt="Gallery image 1"
-                                            className="ecommerce-gallery-main-img active w-100 rounded-4"
-                                        />
-                                    </div>
-                                    <div className="p-3">
-                                        <img
-                                            src="https://mdbootstrap.com/img/Photos/Slides/1.jpg"
-                                            style={{
-                                                width: 100,
-                                                height: 100,
-                                                objectFit: "cover",
-                                                borderRadius: 10
-                                            }}
-                                            alt="Gallery image 1"
-                                            className="ecommerce-gallery-main-img active w-100 rounded-4"
-                                        />
-                                    </div>
-                                    <div className="p-3">
-                                        <img
-                                            src="https://mdbootstrap.com/img/Photos/Slides/1.jpg"
-                                            style={{
-                                                width: 100,
-                                                height: 100,
-                                                objectFit: "cover",
-                                                borderRadius: 10
-                                            }}
-                                            alt="Gallery image 1"
-                                            className="ecommerce-gallery-main-img active w-100 rounded-4"
-                                        />
-                                    </div>
-                                    <div className="p-3">
-                                        <img
-                                            src="https://mdbootstrap.com/img/Photos/Slides/1.jpg"
-                                            style={{
-                                                width: 100,
-                                                height: 100,
-                                                objectFit: "cover",
-                                                borderRadius: 10
-                                            }}
-                                            alt="Gallery image 1"
-                                            className="ecommerce-gallery-main-img active w-100 rounded-4"
-                                        />
-                                    </div>
-                                    <div className="p-3">
-                                        <img
-                                            src="https://mdbootstrap.com/img/Photos/Slides/1.jpg"
-                                            style={{
-                                                width: 100,
-                                                height: 100,
-                                                objectFit: "cover",
-                                                borderRadius: 10
-                                            }}
-                                            alt="Gallery image 1"
-                                            className="ecommerce-gallery-main-img active w-100 rounded-4"
-                                        />
-                                    </div>
+                                    {gallery.map((g, i) => (
+                                        <div className="p-3">
+                                            <img
+                                                src="https://mdbootstrap.com/img/Photos/Slides/1.jpg"
+                                                style={{
+                                                    width: 100,
+                                                    height: 100,
+                                                    objectFit: "cover",
+                                                    borderRadius: 10
+                                                }}
+                                                alt="Gallery image 1"
+                                                className="ecommerce-gallery-main-img active w-100 rounded-4"
+                                            />
+                                        </div>))}
+
+
+
+
+
                                 </div>
                             </div>
                             {/* Gallery */}
@@ -124,7 +90,7 @@ const ProductDetails = () => {
                         <div className="col-md-6 mb-4 mb-md-0">
                             {/* Details */}
                             <div>
-                                <h1 className="fw-bold mb-3">{data?.title}</h1>
+                                <h1 className="fw-bold mb-3">{product?.title}</h1>
                                 <div className="d-flex text-primary just align-items-center">
                                     <ul className="mb-3 d-flex p-0" style={{ listStyle: "none" }}>
                                         <li>
@@ -147,7 +113,7 @@ const ProductDetails = () => {
                                     <span className="align-middle">$101</span>
                                 </h5>
                                 <p className="text-muted">
-                                  {data?.description}
+                                    {product?.description}
                                 </p>
                                 <div className="table-responsive">
                                     <table className="table table-sm table-borderless mb-0">
@@ -186,7 +152,8 @@ const ProductDetails = () => {
                                     </table>
                                 </div>
                                 <hr className="my-5" />
-                                <form action="">
+                                {/* <form action=""> */}
+                                <div>
                                     <div className="row flex-column">
                                         {/* Quantity */}
                                         <div className="col-md-6 mb-4">
@@ -195,6 +162,7 @@ const ProductDetails = () => {
                                                 <input
                                                     type="number"
                                                     id="typeNumber"
+                                                    onChange={handleQty}
                                                     className="form-control quantity"
                                                     min={1}
                                                     value={1}
@@ -202,61 +170,52 @@ const ProductDetails = () => {
                                             </div>
                                         </div>
 
-                                        {/* Size */}
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-outline">
-                                                <label className="form-label" htmlFor="typeNumber"><b>Size:</b> XS</label>
-                                            </div>
-                                            <div className='d-flex'>
-                                                <div key={1} className='me-2'>
-                                                    <input type="hidden" className='size_name' value={"XS"} />
-                                                    <button className='btn btn-secondary size_button'>XS</button>
+                                        {/* Size */}{size.length > 0 &&
+                                            <div className="col-md-6 mb-4">
+                                                <div className="form-outline">
+                                                    <label className="form-label" htmlFor="typeNumber"><b>Size:</b> {sizeValue}</label>
                                                 </div>
-                                                <div key={1} className='me-2'>
-                                                    <input type="hidden" className='size_name' value={"XXL"} />
-                                                    <button className='btn btn-secondary size_button'>XXL</button>
+                                                <div className='d-flex'>
+                                                    {size.map((item, i) => (
+                                                        <div key={i} className='me-2'>
+                                                            <input type="hidden" className='size_name' value={item.name} />
+                                                            <button className='btn btn-secondary size_button' onClick={handleSize}>{item.name}</button>
+                                                        </div>
+
+                                                    ))}
+
+
                                                 </div>
-                                                <div key={1} className='me-2'>
-                                                    <input type="hidden" className='size_name' value={"XL"} />
-                                                    <button className='btn btn-secondary size_button'>XL</button>
-                                                </div>
-                                            </div>
-                                        </div>
+
+                                            </div>}
 
                                         {/* Colors */}
+                                        {color.length > 0 &&
+                                            <div className="col-md-6 mb-4">
+                                                <div className="form-outline">
+                                                    <label className="form-label" htmlFor="typeNumber"><b>Color:</b> <span>{colorValue}</span></label>
+                                                </div>
+                                                <div className='d-flex'>
+                                                    {color.map((c, i) => (
+                                                        <div key={i}>
+                                                            <input type="hidden" className='color_name' value={c.name} />
+                                                            <input type="hidden" className='color_image' value={c.name} />
+                                                            <button className='btn p-3 me-2 color_button' style={{ background: c.color_code }} onClick={handleColor}></button>
+                                                        </div>))}
 
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-outline">
-                                                <label className="form-label" htmlFor="typeNumber"><b>Color:</b> <span>Red</span></label>
-                                            </div>
-                                            <div className='d-flex'>
-                                                <div key={1}>
-                                                    <input type="hidden" className='color_name' value={1} />
-                                                    <input type="hidden" className='color_image' value={1} />
-                                                    <button className='btn p-3 me-2 color_button' style={{ background: "red" }}></button>
                                                 </div>
-                                                <div key={1}>
-                                                    <input type="hidden" className='color_name' value={1} />
-                                                    <input type="hidden" className='color_image' value={1} />
-                                                    <button className='btn p-3 me-2 color_button' style={{ background: "yellow" }}></button>
-                                                </div>
-                                                <div key={1}>
-                                                    <input type="hidden" className='color_name' value={1} />
-                                                    <input type="hidden" className='color_image' value={1} />
-                                                    <button className='btn p-3 me-2 color_button' style={{ background: "green" }}></button>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                        </div>
+                                                <hr />
+                                            </div>}
 
                                     </div>
-                                    <button type="button" className="btn btn-primary btn-rounded me-2">
+                                    <button type="button" className="btn btn-primary btn-rounded me-2" onClick={handleAddToCart}>
                                         <i className="fas fa-cart-plus me-2" /> Add to cart
                                     </button>
-                                    <button href="#!" type="button" className="btn btn-danger btn-floating" data-mdb-toggle="tooltip" title="Add to wishlist">
+                                    <button href="#!" type="button" className="btn btn-danger btn-floating" product-mdb-toggle="tooltip" title="Add to wishlist">
                                         <i className="fas fa-heart" />
                                     </button>
-                                </form>
+                                </div>
+                                {/* </form> */}
                             </div>
                         </div>
                     </div>
@@ -264,17 +223,17 @@ const ProductDetails = () => {
                 <hr />
                 <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li className="nav-item" role="presentation">
-                        <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                        <button className="nav-link active" id="pills-home-tab" product-bs-toggle="pill" product-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
                             Specifications
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+                        <button className="nav-link" id="pills-profile-tab" product-bs-toggle="pill" product-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
                             Vendor
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false" >
+                        <button className="nav-link" id="pills-contact-tab" product-bs-toggle="pill" product-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false" >
                             Review
                         </button>
                     </li>
