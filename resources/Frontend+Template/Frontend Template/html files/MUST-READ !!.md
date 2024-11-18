@@ -1,0 +1,1 @@
+Hey there! Just letting you know that we've refreshed the template files for your React component. They're now cleaner and leaner, so you can just copy and paste the code directly. No need to mess with removing the nav or footer - we already took care of it! If you have any questions, feel free to shoot me an email at desphixs@gmail.com. Happy coding!

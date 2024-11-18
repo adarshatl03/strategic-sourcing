@@ -6,7 +6,7 @@ from userauths.models import User,Profile
 from django.core.mail import send_mail
 from django.utils import timezone 
 from django.conf import settings
-from userauths.serializer import CustomTokenObtainPairSerializer,RegisterSerilizer,UserSerializer
+from userauths.serializers import CustomTokenObtainPairSerializer,RegisterSerilizer,UserSerializer
 import random
 import shortuuid
 shortuuid.set_alphabet("0123456789")
